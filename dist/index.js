@@ -532,10 +532,8 @@ function createMessageCard(notificationSummary, notificationColor, runNum, runId
         title: notificationSummary,
         sections: [
             {
-                activityText: notificationText
-            },
-            {
                 activityTitle: `**#${runNum}** on [${repoName}](${repoUrl})`,
+                activityText: notificationText
             }
         ],
         potentialAction: [

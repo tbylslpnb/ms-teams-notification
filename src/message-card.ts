@@ -17,10 +17,8 @@ export function createMessageCard(
     title: notificationSummary,
     sections: [
       {
+        activityTitle: `**#${runNum}** on [${repoName}](${repoUrl})`,
         activityText: notificationText
-      },
-      {
-        activityTitle: `**#${runNum}** on [${repoName}](${repoUrl})`
       }
     ],
     potentialAction: [
