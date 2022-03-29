@@ -523,8 +523,7 @@ exports.issueCommand = issueCommand;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMessageCard = void 0;
-function createMessageCard(notificationSummary, notificationColor, runNum, runId, repoName, sha, repoUrl, timestamp, releaseTitle, releaseMessage) {
-    let avatar_url = 'https://www.gravatar.com/avatar/05b6d8cc7c662bf81e01b39254f88a48?d=identicon';
+function createMessageCard(notificationSummary, notificationColor, runNum, runId, repoName, sha, repoUrl, timestamp, notificationText) {
     const messageCard = {
         '@type': 'MessageCard',
         '@context': 'https://schema.org/extensions',
@@ -533,13 +532,10 @@ function createMessageCard(notificationSummary, notificationColor, runNum, runId
         title: notificationSummary,
         sections: [
             {
-                activityTitle: releaseTitle,
-                activityText: releaseMessage
+                activityText: notificationText
             },
             {
-                activityTitle: `**CI #${runNum} (commit ${sha.substr(0, 7)})** on [${repoName}](${repoUrl})`,
-                activityImage: avatar_url,
-                activitySubtitle: ``
+                activityTitle: `**#${runNum}** on [${repoName}](${repoUrl})`,
             }
         ],
         potentialAction: [
@@ -991,7 +987,6 @@ function run() {
                 required: true
             });
             const notificationSummary = core.getInput('notification-summary') || 'GitHub Action Notification';
-            const releaseTitle = core.getInput('release-title') || 'Release notes';
             const notificationColor = core.getInput('notification-color') || '0b93ff';
             const timezone = core.getInput('timezone') || 'UTC';
             const timestamp = moment_timezone_1.default()
@@ -1005,7 +1000,7 @@ function run() {
             const repoName = params.owner + '/' + params.repo;
             const repoUrl = `https://github.com/${repoName}`;
             const notificationText = core.getInput('notification-text');
-            const messageCard = yield message_card_1.createMessageCard(notificationSummary, notificationColor, runNum, runId, repoName, sha, repoUrl, timestamp, releaseTitle, notificationText);
+            const messageCard = yield message_card_1.createMessageCard(notificationSummary, notificationColor, runNum, runId, repoName, sha, repoUrl, timestamp, notificationText);
             console.log(messageCard);
             axios_1.default
                 .post(msTeamsWebhookUri, messageCard)

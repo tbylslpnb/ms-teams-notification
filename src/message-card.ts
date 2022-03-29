@@ -7,12 +7,8 @@ export function createMessageCard(
   sha: string,
   repoUrl: string,
   timestamp: string,
-  releaseTitle: string | null,
-  releaseMessage?: string | null
+  notificationText?: string | null
 ): any {
-  let avatar_url =
-    'https://www.gravatar.com/avatar/05b6d8cc7c662bf81e01b39254f88a48?d=identicon'
-
   const messageCard = {
     '@type': 'MessageCard',
     '@context': 'https://schema.org/extensions',
@@ -21,16 +17,10 @@ export function createMessageCard(
     title: notificationSummary,
     sections: [
       {
-        activityTitle: releaseTitle,
-        activityText: releaseMessage
+        activityText: notificationText
       },
       {
-        activityTitle: `**CI #${runNum} (commit ${sha.substr(
-          0,
-          7
-        )})** on [${repoName}](${repoUrl})`,
-        activityImage: avatar_url,
-        activitySubtitle: ``
+        activityTitle: `**#${runNum}** on [${repoName}](${repoUrl})`
       }
     ],
     potentialAction: [

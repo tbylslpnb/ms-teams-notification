@@ -23,9 +23,6 @@ inputs:
   notification-text:
     description: 'The release notes'
     required: false
-  release-title:
-    description: 'The title for your release notes, defaults to Release Notes'
-    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
