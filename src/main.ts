@@ -41,18 +41,11 @@ async function run(): Promise<void> {
     const repoName = params.owner + '/' + params.repo
     const repoUrl = `https://github.com/${repoName}`
 
-    const octokit = new Octokit({auth: `token ${githubToken}`})
-    const commit = await octokit.repos.getCommit(params)
-    const author = commit.data.author
-
-    const notificationText =
-      core.getInput('notification-text') || commit.data.commit.message
+    const notificationText = core.getInput('notification-text')
 
     const messageCard = await createMessageCard(
       notificationSummary,
       notificationColor,
-      commit,
-      author,
       runNum,
       runId,
       repoName,
